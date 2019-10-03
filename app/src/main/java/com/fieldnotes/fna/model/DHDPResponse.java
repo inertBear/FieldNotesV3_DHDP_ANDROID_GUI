@@ -10,7 +10,7 @@ import java.util.Map;
  */
 
 public class DHDPResponse {
-    public FNResponseType mResponseType;
+    public DHDPResponseType mResponseType;
     public String mMessage;
     public String mToken;
     public ArrayList<HashMap<String, String>> mResultList;
@@ -34,7 +34,7 @@ public class DHDPResponse {
         return new DHDPResponse.Builder(copy);
     }
 
-    public FNResponseType getResponseType() {
+    public DHDPResponseType getResponseType() {
         return mResponseType;
     }
 
@@ -59,7 +59,7 @@ public class DHDPResponse {
     }
 
     public static final class Builder {
-        private FNResponseType responseType;
+        private DHDPResponseType responseType;
         private String message;
         private String token;
         private ArrayList<HashMap<String, String>> resultList;
@@ -78,7 +78,7 @@ public class DHDPResponse {
             metadata = copy.mMetadata;
         }
 
-        public DHDPResponse.Builder setStatustype(final FNResponseType responseType) {
+        public DHDPResponse.Builder setStatustype(final DHDPResponseType responseType) {
             this.responseType = responseType;
             return this;
         }

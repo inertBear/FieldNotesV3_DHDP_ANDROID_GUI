@@ -3,7 +3,7 @@ package com.fieldnotes.fna.service;
 import com.fieldnotes.fna.model.DHDPHeader;
 import com.fieldnotes.fna.model.DHDPResponse;
 import com.fieldnotes.fna.model.FNRequest;
-import com.fieldnotes.fna.model.FNResponseType;
+import com.fieldnotes.fna.model.DHDPResponseType;
 import com.fieldnotes.fna.model.FieldNote;
 import com.fieldnotes.fna.parser.JSONParser;
 import com.google.gson.Gson;
@@ -12,9 +12,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.logging.Logger;
-
-import static com.fieldnotes.fna.constants.FNConstants.RESPONSE_STATUS_FAILURE;
-import static com.fieldnotes.fna.constants.FNConstants.RESPONSE_STATUS_SUCCESS;
 
 /**
  * Service for sending requests to FNP
@@ -67,21 +64,21 @@ public class DHDPRequestService {
 
         // add these two JSON objects to a new JSONObject
         JSONObject requestJson = new JSONObject();
-        ex:
-        request {
-            header {
-                1 {
-                },
-                2 {
-                },
-            },
-            body {
-                1 {
-                },
-                2 {
-                }
-            }
-        }
+//        ex:
+//        request {
+//            header {
+//                1 {
+//                },
+//                2 {
+//                },
+//            },
+//            body {
+//                1 {
+//                },
+//                2 {
+//                }
+//            }
+//        }
 
 
         return null;
@@ -103,7 +100,7 @@ public class DHDPRequestService {
 //                            .build();
 //                } else {
 //                    return DHDPResponse.newBuilder()
-//                            .setStatustype(FNResponseType.FAILURE)
+//                            .setStatustype(DHDPResponseType.FAILURE)
 //                            .setMessage("No Login Token Received")
 //                            .build();
 //                }
@@ -169,19 +166,19 @@ public class DHDPRequestService {
 //                return responseBuilder.build();
 //            default:
 //                return DHDPResponse.newBuilder()
-//                        .setStatustype(FNResponseType.FAILURE)
+//                        .setStatustype(DHDPResponseType.FAILURE)
 //                        .setMessage("Could not set Request Type")
 //                        .build();
 //        }
 //    }
 
-    private static FNResponseType convertResponseType(String status) {
-        switch (status) {
-            case RESPONSE_STATUS_SUCCESS:
-                return FNResponseType.SUCCESS;
-            case RESPONSE_STATUS_FAILURE:
-            default:
-                return FNResponseType.FAILURE;
-        }
-    }
+//    private static DHDPResponseType convertResponseType(String status) {
+//        switch (status) {
+//            case RESPONSE_STATUS_SUCCESS:
+//                return DHDPResponseType.SUCCESS;
+//            case RESPONSE_STATUS_FAILURE:
+//            default:
+//                return DHDPResponseType.FAILURE;
+//        }
+//    }
 }

@@ -12,13 +12,9 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.fieldnotes.fna.R;
-import com.fieldnotes.fna.preferences.PreferenceFragment;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.fieldnotes.fna.constants.FNAConstants.ADD_NOTE_FRAGMENT_TITLE;
-import static com.fieldnotes.fna.constants.FNAConstants.SEARCH_NOTE_FRAGMENT_TITLE;
 
 public class Welcome extends AppCompatActivity {
 
@@ -29,8 +25,6 @@ public class Welcome extends AppCompatActivity {
         //setup view pager and tab layout
         ViewPager viewPager = findViewById(R.id.viewPager);
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-//        adapter.addFragment(new AddFieldNote(), ADD_NOTE_FRAGMENT_TITLE);
-//        adapter.addFragment(new SearchFieldNote(), SEARCH_NOTE_FRAGMENT_TITLE);
         viewPager.setAdapter(adapter);
 
         TabLayout tabLayout = findViewById(R.id.tabs);
@@ -43,27 +37,27 @@ public class Welcome extends AppCompatActivity {
         return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        View user_settings = findViewById(R.id.user_settings);
-        switch (item.getItemId()) {
-            case R.id.user_settings:
-                user_settings.setVisibility(View.INVISIBLE);
-                PreferenceFragment preferences = new PreferenceFragment();
-                getSupportFragmentManager()
-                        .beginTransaction()
-                        .add(android.R.id.content, preferences, "preferenceFragment")
-                        .addToBackStack(null)
-                        .commit();
-                return true;
-            case android.R.id.home:
-                user_settings.setVisibility(View.VISIBLE);
-                onBackPressed();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        View user_settings = findViewById(R.id.user_settings);
+//        switch (item.getItemId()) {
+//            case R.id.user_settings:
+//                user_settings.setVisibility(View.INVISIBLE);
+//                PreferenceFragment preferences = new PreferenceFragment();
+//                getSupportFragmentManager()
+//                        .beginTransaction()
+//                        .add(android.R.id.content, preferences, "preferenceFragment")
+//                        .addToBackStack(null)
+//                        .commit();
+//                return true;
+//            case android.R.id.home:
+//                user_settings.setVisibility(View.VISIBLE);
+//                onBackPressed();
+//                return true;
+//            default:
+//                return super.onOptionsItemSelected(item);
+//        }
+//    }
 
     // Adapter for the viewpager
     class ViewPagerAdapter extends FragmentPagerAdapter {

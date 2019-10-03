@@ -12,10 +12,10 @@ import android.widget.EditText;
 import com.fieldnotes.fna.R;
 import com.fieldnotes.fna.asynctask.FNAsyncTask;
 import com.fieldnotes.fna.model.DHDPHeader;
+import com.fieldnotes.fna.model.DHDPResponseType;
 import com.fieldnotes.fna.model.FNRequest;
 import com.fieldnotes.fna.model.DHDPRequestType;
 import com.fieldnotes.fna.model.DHDPResponse;
-import com.fieldnotes.fna.model.FNResponseType;
 import com.fieldnotes.fna.model.FieldNote;
 import com.fieldnotes.fna.service.DHDPRequestService;
 
@@ -23,12 +23,6 @@ import org.json.JSONException;
 
 import java.time.format.DateTimeFormatter;
 import java.util.logging.Logger;
-
-import static com.fieldnotes.fna.constants.FNAConstants.PREFS_NAME;
-import static com.fieldnotes.fna.constants.FNAConstants.PREF_AUTOLOG;
-import static com.fieldnotes.fna.constants.FNAConstants.PREF_PASSWORD;
-import static com.fieldnotes.fna.constants.FNAConstants.PREF_TOKEN;
-import static com.fieldnotes.fna.constants.FNAConstants.PREF_USERNAME;
 
 public class Login extends AppCompatActivity {
     private static final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
@@ -59,7 +53,7 @@ public class Login extends AppCompatActivity {
             }
         });
 
-        checkAutoLogin();
+//        checkAutoLogin();
     }
 
     /**
@@ -88,7 +82,7 @@ public class Login extends AppCompatActivity {
                     .setRequestType(DHDPRequestType.LOGIN)
                     .setCreator(userName)
                     .setOrganization("FieldNotes")
-                    .setSender("FNA")
+                    .setOriginator("FNA")
                     .setRecipient("DHDP")
                     .build();
 
@@ -111,14 +105,7 @@ public class Login extends AppCompatActivity {
                 // send request to FNP
                 DHDPResponse response = DHDPRequestService.getInstance().sendRequest(request);
 
-                if (response.getResponseType().equals(FNResponseType.SUCCESS)) {
-                    // save login preferences
-                    getSharedPreferences(PREFS_NAME, MODE_PRIVATE).edit()
-                            .putString(PREF_USERNAME, userName)
-                            .putString(PREF_PASSWORD, password)
-                            .putString(PREF_TOKEN, response.getToken())
-                            .apply();
-
+                if (response.getResponseType().equals(DHDPResponseType.SUCCESS)) {
                     // navigate to Welcome View
                     Intent ii = new Intent(Login.this, Welcome.class);
                     startActivity(ii);
@@ -129,23 +116,6 @@ public class Login extends AppCompatActivity {
 //                e.printStackTrace();
 //            }
 //            return null;
-        }
-    }
-
-    /**
-     * automatically fill the username and password if stored in preferences
-     */
-    private void checkAutoLogin() {
-        // check for auto-login
-        SharedPreferences pref = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
-        boolean autolog = pref.getBoolean(PREF_AUTOLOG, false);
-        String username = pref.getString(PREF_USERNAME, null);
-        String password = pref.getString(PREF_PASSWORD, null);
-        if (autolog) {
-            if (username != null && password != null) {
-                mUserNameET.setText(username);
-                mPasswordET.setText(password);
-            }
         }
     }
 }
