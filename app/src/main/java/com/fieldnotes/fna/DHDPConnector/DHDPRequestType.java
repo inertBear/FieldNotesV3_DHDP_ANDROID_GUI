@@ -1,4 +1,4 @@
-package com.fieldnotes.fna.model;
+package com.fieldnotes.fna.DHDPConnector;
 
 /**
  * Enums for request type

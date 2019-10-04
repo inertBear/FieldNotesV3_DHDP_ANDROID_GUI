@@ -10,7 +10,7 @@
         android:theme="@style/AppTheme">
         <!-- android:roundIcon="@mipmap/ic_launcher_round" -->
 
-        <activity android:name="com.fieldnotes.fna.view.Login"
+        <activity android:name=".ExampleImpl.view.FNLogin"
             android:configChanges="orientation"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -19,7 +19,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.fieldnotes.fna.view.Welcome"
+        <activity android:name=".ExampleImpl.view.FNWelcome"
             android:configChanges="orientation"
             android:screenOrientation="portrait">
             <intent-filter>

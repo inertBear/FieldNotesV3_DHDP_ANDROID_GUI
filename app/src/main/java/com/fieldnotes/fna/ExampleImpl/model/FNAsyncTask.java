@@ -1,4 +1,4 @@
-package com.fieldnotes.fna.asynctask;
+package com.fieldnotes.fna.ExampleImpl.model;
 
 import android.app.ProgressDialog;
 import android.content.Context;

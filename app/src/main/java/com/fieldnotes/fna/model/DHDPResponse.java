@@ -1,5 +1,7 @@
 package com.fieldnotes.fna.model;
 
+import com.fieldnotes.fna.DHDPConnector.DHDPResponseType;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;

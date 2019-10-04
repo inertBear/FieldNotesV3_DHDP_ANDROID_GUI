@@ -1,5 +1,5 @@
 <resources>
-    <!--Login Strings-->
+    FNLoginogin Strings-->
     <string name="app_name">FieldNotes</string>
     <string name="app_platform">Android</string>
     <string name="login_title_label">Login</string>

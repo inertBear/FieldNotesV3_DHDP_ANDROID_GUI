@@ -1,4 +1,4 @@
-package com.fieldnotes.fna.model;
+package com.fieldnotes.fna.DHDPConnector;
 
 import org.junit.Test;
 
@@ -73,9 +73,9 @@ public class DHDPHeaderTest {
         final DHDPRequestType requestType = DHDPRequestType.LOGIN;
         final String originator = "DHDPConnector";
         final String recipient = "DHDP";
-        final String expectedString = "{\"map\":{\"Organization\":\"DevHunter\",\"Originator\":\"" +
+        final String expectedString = "{\"Organization\":\"DevHunter\",\"Originator\":\"" +
                 "DHDPConnector\",\"Recipient\":\"DHDP\",\"Creator\":\"Username\",\"RequestType\":\"" +
-                "LOGIN\"}}";
+                "LOGIN\"}";
 
         DHDPHeader header = DHDPHeader.newBuilder()
                 .setCreator(username)
