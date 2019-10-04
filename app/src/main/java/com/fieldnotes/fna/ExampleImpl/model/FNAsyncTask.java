@@ -49,7 +49,7 @@ public abstract class FNAsyncTask extends AsyncTask<String, String, String> {
         // display response message
         if (message != null) {
             Toast toast = Toast.makeText(mContext.getApplicationContext(), message, Toast.LENGTH_SHORT);
-            toast.setGravity(Gravity.BOTTOM|Gravity.CENTER, 0, 0);
+            toast.setGravity(Gravity.BOTTOM | Gravity.CENTER, 0, 0);
             toast.show();
         }
     }

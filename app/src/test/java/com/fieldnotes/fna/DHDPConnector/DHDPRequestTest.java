@@ -1,21 +1,14 @@
 package com.fieldnotes.fna.DHDPConnector;
 
-import org.json.JSONObject;
 import org.junit.Test;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
-public class DHDPRequestServiceTest {
+public class DHDPRequestTest {
 
-    private static final String CREATOR_KEY = "CREATOR";
-    private static final String ORGANIZATION_KEY = "ORGANIZATION";
-    private static final String REQUEST_TYPE_KEY = "REQUEST_TYPE";
-    private static final String RESPONSE_TYPE_KEY = "RESPONSE_TYPE";
-    private static final String ORIGINATOR_KEY = "ORIGINATOR";
-    private static final String RECIPIENT_KEY = "RECIPIENT";
     private static final String USERNAME_KEY = "USERNAME";
     private static final String PASSWORD_KEY = "PASSWORD";
 
@@ -28,7 +21,11 @@ public class DHDPRequestServiceTest {
     private static final String PASSWORD = "Password123!@#";
 
     @Test
-    public void mergeHeaderAndBodyTest() throws Exception {
+    public void createDHDPRequestTest() {
+        String expectedHeader = "{\"ORGANIZATION\":\"DEVHUNTER\",\"RECIPIENT\":\"DHDP\"," +
+                "\"CREATOR\":\"USER\",\"REQUEST_TYPE\":\"LOGIN\",\"ORIGINATOR\":\"GUI\"}";
+        String expectedBody = "{\"PASSWORD\":\"Password123!@#\",\"USERNAME\":\"USER\"}";
+
         DHDPHeader header = DHDPHeader.newBuilder()
                 .setCreator(CREATOR)
                 .setOrganization(ORGANIZATION)
@@ -42,15 +39,13 @@ public class DHDPRequestServiceTest {
         bodyMap.put(PASSWORD_KEY, PASSWORD);
         DHDPTestBody body = new DHDPTestBody(bodyMap);
 
-        JSONObject preparedRequest = DHDPRequestService.getInstance().merge(header, body);
+        DHDPRequest request = DHDPRequest.newBuilder()
+                .setHeader(header)
+                .setBody(body)
+                .build();
 
-        assertEquals(USERNAME, preparedRequest.get(CREATOR_KEY));
-        assertEquals(ORGANIZATION, preparedRequest.get(ORGANIZATION_KEY));
-        assertEquals(TYPE, preparedRequest.get(REQUEST_TYPE_KEY));
-        assertEquals(ORIGINATOR, preparedRequest.get(ORIGINATOR_KEY));
-        assertEquals(RECIPIENT, preparedRequest.get(RECIPIENT_KEY));
-        assertEquals(USERNAME, preparedRequest.get(USERNAME_KEY));
-        assertEquals(PASSWORD, preparedRequest.get(PASSWORD_KEY));
+        assertEquals(expectedHeader, request.getHeader().toString());
+        assertEquals(expectedBody, request.getBody().toString());
     }
 
     private class DHDPTestBody extends DHDPBody {

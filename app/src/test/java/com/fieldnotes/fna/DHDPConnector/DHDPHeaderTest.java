@@ -30,6 +30,23 @@ public class DHDPHeaderTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
+    public void testCreateDHDPHeaderWithNullValues() throws Exception {
+        final String username = null;
+        final String organization = null;
+        final DHDPRequestType requestType = null;
+        final String originator = null;
+        final String recipient = null;
+
+        DHDPHeader.newBuilder()
+                .setCreator(username)
+                .setOrganization(organization)
+                .setRequestType(requestType)
+                .setOriginator(originator)
+                .setRecipient(recipient)
+                .build();
+    }
+
+    @Test(expected = IllegalArgumentException.class)
     public void testCreateDHDPHeaderWithoutRequestType() throws Exception {
         final String username = "Username";
         final String organization = "DevHunter";
@@ -73,9 +90,8 @@ public class DHDPHeaderTest {
         final DHDPRequestType requestType = DHDPRequestType.LOGIN;
         final String originator = "DHDPConnector";
         final String recipient = "DHDP";
-        final String expectedString = "{\"Organization\":\"DevHunter\",\"Originator\":\"" +
-                "DHDPConnector\",\"Recipient\":\"DHDP\",\"Creator\":\"Username\",\"RequestType\":\"" +
-                "LOGIN\"}";
+        final String expectedString = "{\"ORGANIZATION\":\"DevHunter\",\"RECIPIENT\":\"DHDP\"," +
+                "\"CREATOR\":\"Username\",\"REQUEST_TYPE\":\"LOGIN\",\"ORIGINATOR\":\"DHDPConnector\"}";
 
         DHDPHeader header = DHDPHeader.newBuilder()
                 .setCreator(username)
@@ -85,7 +101,6 @@ public class DHDPHeaderTest {
                 .setRecipient(recipient)
                 .build();
 
-
         assertEquals(username, header.getCreator());
         assertEquals(organization, header.getOrganization());
         assertEquals(requestType, header.getRequestType());
@@ -94,5 +109,10 @@ public class DHDPHeaderTest {
 
         String actualString = header.toString();
         assertEquals(expectedString, actualString);
+    }
+
+    @Test
+    public void getReservedKeysTest() {
+        assertEquals(6, DHDPHeader.getReservedKeys().size());
     }
 }

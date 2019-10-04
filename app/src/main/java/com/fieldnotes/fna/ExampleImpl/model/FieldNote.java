@@ -57,7 +57,7 @@ public class FieldNote extends DHDPBody {
         mGps = getString(GPS_KEY);
     }
 
-    public String getUsername(){
+    public String getUsername() {
         return mUsername;
     }
 
@@ -81,7 +81,7 @@ public class FieldNote extends DHDPBody {
         return mLocation;
     }
 
-    public String getBilling(){
+    public String getBilling() {
         return mBilling;
     }
 
@@ -94,7 +94,7 @@ public class FieldNote extends DHDPBody {
     }
 
     public LocalDateTime getEndDateTime() {
-        return  mEndDateTime;
+        return mEndDateTime;
     }
 
     public int getMileageStart() {

@@ -35,28 +35,6 @@ public class FNWelcome extends AppCompatActivity {
         return true;
     }
 
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        View user_settings = findViewById(R.id.user_settings);
-//        switch (item.getItemId()) {
-//            case R.id.user_settings:
-//                user_settings.setVisibility(View.INVISIBLE);
-//                PreferenceFragment preferences = new PreferenceFragment();
-//                getSupportFragmentManager()
-//                        .beginTransaction()
-//                        .add(android.R.id.content, preferences, "preferenceFragment")
-//                        .addToBackStack(null)
-//                        .commit();
-//                return true;
-//            case android.R.id.home:
-//                user_settings.setVisibility(View.VISIBLE);
-//                onBackPressed();
-//                return true;
-//            default:
-//                return super.onOptionsItemSelected(item);
-//        }
-//    }
-
     // Adapter for the viewpager
     class ViewPagerAdapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();

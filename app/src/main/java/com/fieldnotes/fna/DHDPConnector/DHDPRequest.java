@@ -3,7 +3,6 @@ package com.fieldnotes.fna.DHDPConnector;
 /**
  * Models a request to be sent to DHDP
  */
-
 public class DHDPRequest {
     private DHDPHeader mHeader;
     private DHDPBody mBody;

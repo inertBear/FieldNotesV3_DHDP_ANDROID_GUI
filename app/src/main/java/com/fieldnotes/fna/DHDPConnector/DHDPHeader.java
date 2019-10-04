@@ -5,112 +5,114 @@ import com.google.gson.Gson;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.logging.Logger;
 
 /**
  * DHDPHeader defines the data that must be included in a Request or Response header.
  * Under the hood it is a JSON object, but from the outside it appears as a POJO.
- *
+ * <p>
  * This object is self-policing to enforce that all the fields required by DHDP are met.
- *
+ * <p>
  * NOTE: a DHDPHeader that is received by a client may contain a ResponseType,
  * but it cannot be set on the client side
  */
 public class DHDPHeader extends JSONObject implements Header {
 
     //JSON DHDPHeader keys
-    private static final String creatorKey = "Creator";
-    private static final String organizationKey = "Organization";
-    private static final String requestTypeKey = "RequestType";
-    private static final String responseTypeKey = "ResponseType";
-    private static final String originatorKey = "Originator";
-    private static final String recipientKey = "Recipient";
+    private static final String CREATOR_KEY = "CREATOR";
+    private static final String ORGANIZATION_KEY = "ORGANIZATION";
+    private static final String REQUEST_TYPE_KEY = "REQUEST_TYPE";
+    private static final String RESPONSE_TYPE_KEY = "RESPONSE_TYPE";
+    private static final String ORIGINATOR_KEY = "ORIGINATOR";
+    private static final String RECIPIENT_KEY = "RECIPIENT";
 
     private static final Logger mLogger = Logger.getLogger(DHDPHeader.class.getName());
     private static final String BUILD_ERROR_MESSAGE = "DHDPHeaders require: \n- a creator\n- an organization\n- an originator\n- a recipient\n- and a request type";
+    private static Set<String> mReservedKeys = new HashSet<>();
 
     /**
      * creates a JSON interpretation of a Header
      */
     private DHDPHeader(DHDPHeaderBuilder builder) throws JSONException {
         // create a JSON Header out of the builder's values
-        put(creatorKey, builder.creator);
-        put(organizationKey, builder.organization);
+        put(CREATOR_KEY, builder.creator);
+        put(ORGANIZATION_KEY, builder.organization);
         if (builder.requestType != null) {
-            put(requestTypeKey, builder.requestType);
+            put(REQUEST_TYPE_KEY, builder.requestType);
         }
-        put(originatorKey, builder.originator);
-        put(recipientKey, builder.recipient);
+        put(ORIGINATOR_KEY, builder.originator);
+        put(RECIPIENT_KEY, builder.recipient);
     }
 
     public static DHDPHeader.DHDPHeaderBuilder newBuilder() {
         return new DHDPHeader.DHDPHeaderBuilder();
     }
 
-    @Override
-    public String getCreator() {
+    /**
+     * retrieve the value from the DHDPHeader by key
+     * @param key to get value for
+     * @return string interpretation of the value
+     */
+    private String getValue(String key){
         try {
-            return get(creatorKey).toString();
+            if (key.equals(REQUEST_TYPE_KEY) || key.equals(RESPONSE_TYPE_KEY)) {
+                return get(key).toString();
+            }
+            return getString(key);
         } catch (JSONException e) {
-            mLogger.severe("DHDPHeader contains no creator");
+            mLogger.severe("DHDPHeader does not contain " + key);
             return null;
         }
+    }
+
+    @Override
+    public String getCreator() {
+        return getValue(CREATOR_KEY);
     }
 
     @Override
     public String getOrganization() {
-        try {
-            return get(organizationKey).toString();
-        } catch (JSONException e) {
-            mLogger.severe("DHDPHeader contains no organization");
-            return null;
-        }
+        return getValue(ORGANIZATION_KEY);
     }
 
     @Override
     public DHDPRequestType getRequestType() {
-        try {
-            return (DHDPRequestType) get(requestTypeKey);
-        } catch (JSONException e) {
-            mLogger.severe("DHDPHeader contains no RequestType");
-            return null;
-        }
+        return DHDPRequestType.valueOf(getValue(REQUEST_TYPE_KEY));
     }
 
     @Override
     public DHDPResponseType getResponseType() {
-        try {
-            return (DHDPResponseType) get(responseTypeKey);
-        } catch (JSONException e) {
-            mLogger.severe("DHDPHeader contains no ResponseType");
-            return null;
-        }
+        return DHDPResponseType.valueOf(getValue(RESPONSE_TYPE_KEY));
     }
 
     @Override
     public String getOriginator() {
-        try {
-            return get(originatorKey).toString();
-        } catch (JSONException e) {
-            mLogger.severe("DHDPHeader contains no Originator");
-            return null;
-        }
+        return getValue(ORIGINATOR_KEY);
     }
 
     @Override
     public String getRecipient() {
-        try {
-            return get(recipientKey).toString();
-        } catch (JSONException e) {
-            mLogger.severe("DHDPHeader contains no RequestType");
-            return null;
-        }
+        return getValue(RECIPIENT_KEY);
     }
 
-    @Override
-    public String toString() {
-        Gson gson = new Gson();
-        return gson.toJson(this);
+    /**
+     * Provides a list of keys that are reserved and cannot be used by DHDPBody
+     *
+     * @return list of reserved keys
+     */
+    static Set<String> getReservedKeys() {
+        return mReservedKeys;
+    }
+
+    static {
+        mReservedKeys.add(CREATOR_KEY);
+        mReservedKeys.add(ORGANIZATION_KEY);
+        mReservedKeys.add(REQUEST_TYPE_KEY);
+        mReservedKeys.add(RESPONSE_TYPE_KEY);
+        mReservedKeys.add(ORIGINATOR_KEY);
+        mReservedKeys.add(RECIPIENT_KEY);
     }
 
     public static class DHDPHeaderBuilder {

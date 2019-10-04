@@ -5,12 +5,13 @@ import com.fieldnotes.fna.model.DHDPResponse;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Iterator;
 import java.util.logging.Logger;
 
 /**
  * TODO: block comment
  */
-public class DHDPRequestService <T extends DHDPBody> {
+public class DHDPRequestService {
     private static Logger mLogger = Logger.getLogger(DHDPHeader.class.getName());
     private static DHDPRequestService sInstance;
 
@@ -25,25 +26,40 @@ public class DHDPRequestService <T extends DHDPBody> {
     }
 
     public DHDPResponse sendRequest(DHDPRequest request) {
-        JSONObject requestJson = merge(request.getHeader(), request.getBody());
-        if (requestJson != null) {
-//            return jsonParser.createHttpRequest("http://localhost:8080", "POST", jsonObject);
+        JSONObject preparedRequest = merge(request.getHeader(), request.getBody());
+        if (preparedRequest != null) {
+//            return jsonParser.createHttpRequest("http://localhost:8080", "POST", preparedRequest);
         }
         return DHDPResponse.newBuilder()
                 .setMessage("failed to send")
                 .build();
     }
 
-    public JSONObject merge(DHDPHeader header, DHDPBody body) {
-        // add these two JSON objects to a new JSONObject
-        JSONObject requestJson = null;
+    /**
+     * Combine the header and body into one JSON Object
+     * @param header metadata for request
+     * @param body data for request
+     * @return a JSONObject containing both the header's and the body's fields
+     */
+    JSONObject merge(DHDPHeader header, DHDPBody body) {
+        JSONObject headerAndBody = null;
         try {
-            requestJson = new JSONObject();
-            requestJson.put("HEADER", header);
-            requestJson.put("BODY", body);
+            headerAndBody = new JSONObject();
+
+            // combine header and body
+            Iterator iterator = header.keys();
+            while (iterator.hasNext()) {
+                String key = (String) iterator.next();
+                headerAndBody.put(key, header.get(key));
+            }
+            iterator = body.keys();
+            while (iterator.hasNext()) {
+                String key = (String) iterator.next();
+                headerAndBody.put(key, body.get(key));
+            }
         } catch (JSONException e) {
-            mLogger.severe("Could not create Reponse JSONObject");
+            mLogger.severe("Could not combine header and body");
         }
-        return requestJson;
+        return headerAndBody;
     }
 }
