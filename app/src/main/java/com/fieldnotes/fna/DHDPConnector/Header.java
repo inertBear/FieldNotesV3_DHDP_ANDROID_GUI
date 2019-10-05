@@ -14,7 +14,7 @@ public interface Header {
      *
      * @return organization name
      */
-    String getOrganization();
+    DHDPOrganization getOrganization();
 
     /**
      * retrieves request type associated with the header
@@ -35,12 +35,12 @@ public interface Header {
      *
      * @return addresser's name
      */
-    String getOriginator();
+    DHDPEntity getOriginator();
 
     /**
      * retrieves name of the application the header is addressed to
      *
      * @return addressee's name
      */
-    String getRecipient();
+    DHDPEntity getRecipient();
 }

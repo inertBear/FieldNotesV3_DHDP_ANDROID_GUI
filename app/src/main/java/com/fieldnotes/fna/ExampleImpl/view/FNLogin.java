@@ -8,15 +8,17 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.fieldnotes.fna.DHDPConnector.DHDPEntity;
 import com.fieldnotes.fna.DHDPConnector.DHDPHeader;
+import com.fieldnotes.fna.DHDPConnector.DHDPOrganization;
 import com.fieldnotes.fna.DHDPConnector.DHDPRequest;
 import com.fieldnotes.fna.DHDPConnector.DHDPRequestService;
 import com.fieldnotes.fna.DHDPConnector.DHDPRequestType;
+import com.fieldnotes.fna.DHDPConnector.DHDPResponse;
 import com.fieldnotes.fna.DHDPConnector.DHDPResponseType;
 import com.fieldnotes.fna.ExampleImpl.model.FNAsyncTask;
 import com.fieldnotes.fna.ExampleImpl.model.FieldNote;
 import com.fieldnotes.fna.R;
-import com.fieldnotes.fna.model.DHDPResponse;
 
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
@@ -91,9 +93,9 @@ public class FNLogin extends AppCompatActivity {
             DHDPHeader header = DHDPHeader.newBuilder()
                     .setRequestType(DHDPRequestType.LOGIN)
                     .setCreator(userName)
-                    .setOrganization("DEVHUNTER")
-                    .setOriginator("FIELDNOTES")
-                    .setRecipient("DHDP")
+                    .setOrganization(DHDPOrganization.DEVHUNTER)
+                    .setOriginator(DHDPEntity.FieldNotes)
+                    .setRecipient(DHDPEntity.DHDP)
                     .build();
 
             //Create client DHDPBody implementation

@@ -5,107 +5,85 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 public class DHDPHeaderTest {
+    private final String USERNAME = "Username";
+    private final DHDPOrganization ORGANIZATION = DHDPOrganization.DEVHUNTER;
+    private final DHDPRequestType REQUEST_TYPE = DHDPRequestType.LOGIN;
+    private final DHDPEntity ORIGINATOR = DHDPEntity.DHDPConnector;
+    private final DHDPEntity RECIPIENT = DHDPEntity.DHDP;
 
     @Test
     public void testCreateDHDPHeaderWithAllFields() throws Exception {
-        final String username = "Username";
-        final String organization = "DevHunter";
-        final DHDPRequestType requestType = DHDPRequestType.LOGIN;
-        final String originator = "DHDPConnector";
-        final String recipient = "DHDP";
-
         DHDPHeader header = DHDPHeader.newBuilder()
-                .setCreator(username)
-                .setOrganization(organization)
-                .setRequestType(requestType)
-                .setOriginator(originator)
-                .setRecipient(recipient)
+                .setCreator(USERNAME)
+                .setOrganization(ORGANIZATION)
+                .setRequestType(REQUEST_TYPE)
+                .setOriginator(ORIGINATOR)
+                .setRecipient(RECIPIENT)
                 .build();
 
-        assertEquals(username, header.getCreator());
-        assertEquals(organization, header.getOrganization());
-        assertEquals(requestType, header.getRequestType());
-        assertEquals(originator, header.getOriginator());
-        assertEquals(recipient, header.getRecipient());
+        assertEquals(USERNAME, header.getCreator());
+        assertEquals(ORGANIZATION, header.getOrganization());
+        assertEquals(REQUEST_TYPE, header.getRequestType());
+        assertEquals(ORIGINATOR, header.getOriginator());
+        assertEquals(RECIPIENT, header.getRecipient());
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testCreateDHDPHeaderWithNullValues() throws Exception {
-        final String username = null;
-        final String organization = null;
-        final DHDPRequestType requestType = null;
-        final String originator = null;
-        final String recipient = null;
-
         DHDPHeader.newBuilder()
-                .setCreator(username)
-                .setOrganization(organization)
-                .setRequestType(requestType)
-                .setOriginator(originator)
-                .setRecipient(recipient)
+                .setCreator(null)
+                .setOrganization(null)
+                .setRequestType(null)
+                .setOriginator(null)
+                .setRecipient(null)
                 .build();
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testCreateDHDPHeaderWithoutRequestType() throws Exception {
-        final String username = "Username";
-        final String organization = "DevHunter";
-        final String originator = "DHDPConnector";
-        final String recipient = "DHDP";
-
         DHDPHeader.newBuilder()
-                .setCreator(username)
-                .setOrganization(organization)
-                .setOriginator(originator)
-                .setRecipient(recipient)
+                .setCreator(USERNAME)
+                .setOrganization(ORGANIZATION)
+                .setOriginator(ORIGINATOR)
+                .setRecipient(RECIPIENT)
                 .build();
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testCreateDHDPHeaderOnlyCreator() throws Exception {
         DHDPHeader.newBuilder()
-                .setCreator("Username")
+                .setCreator(USERNAME)
                 .build();
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testCreateDHDPHeaderMissingOrganization() throws Exception {
-        final String username = "Username";
-        final DHDPRequestType requestType = DHDPRequestType.LOGIN;
-        final String originator = "DHDPConnector";
-        final String recipient = "DHDP";
-
         DHDPHeader.newBuilder()
-                .setCreator(username)
-                .setRequestType(requestType)
-                .setOriginator(originator)
-                .setRecipient(recipient)
+                .setCreator(USERNAME)
+                .setRequestType(REQUEST_TYPE)
+                .setOriginator(ORIGINATOR)
+                .setRecipient(RECIPIENT)
                 .build();
     }
 
     @Test
     public void testToString() {
-        final String username = "Username";
-        final String organization = "DevHunter";
-        final DHDPRequestType requestType = DHDPRequestType.LOGIN;
-        final String originator = "DHDPConnector";
-        final String recipient = "DHDP";
-        final String expectedString = "{\"ORGANIZATION\":\"DevHunter\",\"RECIPIENT\":\"DHDP\"," +
+        final String expectedString = "{\"ORGANIZATION\":\"DEVHUNTER\",\"RECIPIENT\":\"DHDP\"," +
                 "\"CREATOR\":\"Username\",\"REQUEST_TYPE\":\"LOGIN\",\"ORIGINATOR\":\"DHDPConnector\"}";
 
         DHDPHeader header = DHDPHeader.newBuilder()
-                .setCreator(username)
-                .setOrganization(organization)
-                .setRequestType(requestType)
-                .setOriginator(originator)
-                .setRecipient(recipient)
+                .setCreator(USERNAME)
+                .setOrganization(ORGANIZATION)
+                .setRequestType(REQUEST_TYPE)
+                .setOriginator(ORIGINATOR)
+                .setRecipient(RECIPIENT)
                 .build();
 
-        assertEquals(username, header.getCreator());
-        assertEquals(organization, header.getOrganization());
-        assertEquals(requestType, header.getRequestType());
-        assertEquals(originator, header.getOriginator());
-        assertEquals(recipient, header.getRecipient());
+        assertEquals(USERNAME, header.getCreator());
+        assertEquals(ORGANIZATION, header.getOrganization());
+        assertEquals(REQUEST_TYPE, header.getRequestType());
+        assertEquals(ORIGINATOR, header.getOriginator());
+        assertEquals(RECIPIENT, header.getRecipient());
 
         String actualString = header.toString();
         assertEquals(expectedString, actualString);

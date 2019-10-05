@@ -13,20 +13,25 @@ public class DHDPRequestServiceTest {
     private static final String CREATOR_KEY = "CREATOR";
     private static final String ORGANIZATION_KEY = "ORGANIZATION";
     private static final String REQUEST_TYPE_KEY = "REQUEST_TYPE";
-    private static final String RESPONSE_TYPE_KEY = "RESPONSE_TYPE";
     private static final String ORIGINATOR_KEY = "ORIGINATOR";
     private static final String RECIPIENT_KEY = "RECIPIENT";
     private static final String USERNAME_KEY = "USERNAME";
     private static final String PASSWORD_KEY = "PASSWORD";
 
     private static final String CREATOR = "USER";
-    private static final String ORGANIZATION = "DEVHUNTER";
+    private static final DHDPOrganization ORGANIZATION = DHDPOrganization.DEVHUNTER;
     private static final DHDPRequestType TYPE = DHDPRequestType.LOGIN;
-    private static final String ORIGINATOR = "GUI";
-    private static final String RECIPIENT = "DHDP";
+    private static final DHDPEntity ORIGINATOR = DHDPEntity.FieldNotes;
+    private static final DHDPEntity RECIPIENT = DHDPEntity.DHDP;
     private static final String USERNAME = "USER";
     private static final String PASSWORD = "Password123!@#";
 
+
+    @Test
+    public void sendRequestTest() {
+        //TODO
+    }
+    
     @Test
     public void mergeHeaderAndBodyTest() throws Exception {
         DHDPHeader header = DHDPHeader.newBuilder()

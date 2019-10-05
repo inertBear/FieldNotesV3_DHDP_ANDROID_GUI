@@ -42,7 +42,7 @@ public abstract class DHDPBody extends JSONObject {
     /**
      * retrieve String value from mapping
      *
-     * @param key to get
+     * @param key get
      * @return value
      */
     public String getString(String key) {

@@ -1,7 +1,5 @@
 package com.fieldnotes.fna.DHDPConnector;
 
-import com.google.gson.Gson;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -21,12 +19,12 @@ import java.util.logging.Logger;
 public class DHDPHeader extends JSONObject implements Header {
 
     //JSON DHDPHeader keys
-    private static final String CREATOR_KEY = "CREATOR";
-    private static final String ORGANIZATION_KEY = "ORGANIZATION";
+    public static final String CREATOR_KEY = "CREATOR";
+    public static final String ORGANIZATION_KEY = "ORGANIZATION";
     private static final String REQUEST_TYPE_KEY = "REQUEST_TYPE";
     private static final String RESPONSE_TYPE_KEY = "RESPONSE_TYPE";
-    private static final String ORIGINATOR_KEY = "ORIGINATOR";
-    private static final String RECIPIENT_KEY = "RECIPIENT";
+    public static final String ORIGINATOR_KEY = "ORIGINATOR";
+    public static final String RECIPIENT_KEY = "RECIPIENT";
 
     private static final Logger mLogger = Logger.getLogger(DHDPHeader.class.getName());
     private static final String BUILD_ERROR_MESSAGE = "DHDPHeaders require: \n- a creator\n- an organization\n- an originator\n- a recipient\n- and a request type";
@@ -52,12 +50,14 @@ public class DHDPHeader extends JSONObject implements Header {
 
     /**
      * retrieve the value from the DHDPHeader by key
+     *
      * @param key to get value for
      * @return string interpretation of the value
      */
-    private String getValue(String key){
+    private String getValue(String key) {
         try {
-            if (key.equals(REQUEST_TYPE_KEY) || key.equals(RESPONSE_TYPE_KEY)) {
+            if (key.equals(REQUEST_TYPE_KEY) || key.equals(RESPONSE_TYPE_KEY)
+                    || key.equals(ORIGINATOR_KEY) || key.equals(RECIPIENT_KEY)) {
                 return get(key).toString();
             }
             return getString(key);
@@ -73,8 +73,8 @@ public class DHDPHeader extends JSONObject implements Header {
     }
 
     @Override
-    public String getOrganization() {
-        return getValue(ORGANIZATION_KEY);
+    public DHDPOrganization getOrganization() {
+        return DHDPOrganization.valueOf(getValue(ORGANIZATION_KEY));
     }
 
     @Override
@@ -88,13 +88,13 @@ public class DHDPHeader extends JSONObject implements Header {
     }
 
     @Override
-    public String getOriginator() {
-        return getValue(ORIGINATOR_KEY);
+    public DHDPEntity getOriginator() {
+        return DHDPEntity.valueOf(getValue(ORIGINATOR_KEY));
     }
 
     @Override
-    public String getRecipient() {
-        return getValue(RECIPIENT_KEY);
+    public DHDPEntity getRecipient() {
+        return DHDPEntity.valueOf(getValue(RECIPIENT_KEY));
     }
 
     /**
@@ -117,10 +117,10 @@ public class DHDPHeader extends JSONObject implements Header {
 
     public static class DHDPHeaderBuilder {
         private String creator;
-        private String organization;
+        private DHDPOrganization organization;
         private DHDPRequestType requestType;
-        private String originator;
-        private String recipient;
+        private DHDPEntity originator;
+        private DHDPEntity recipient;
 
         DHDPHeaderBuilder() {
         }
@@ -130,7 +130,7 @@ public class DHDPHeader extends JSONObject implements Header {
             return this;
         }
 
-        public DHDPHeaderBuilder setOrganization(String organization) {
+        public DHDPHeaderBuilder setOrganization(DHDPOrganization organization) {
             this.organization = organization;
             return this;
         }
@@ -140,12 +140,12 @@ public class DHDPHeader extends JSONObject implements Header {
             return this;
         }
 
-        public DHDPHeaderBuilder setOriginator(String originator) {
+        public DHDPHeaderBuilder setOriginator(DHDPEntity originator) {
             this.originator = originator;
             return this;
         }
 
-        public DHDPHeaderBuilder setRecipient(String recipient) {
+        public DHDPHeaderBuilder setRecipient(DHDPEntity recipient) {
             this.recipient = recipient;
             return this;
         }

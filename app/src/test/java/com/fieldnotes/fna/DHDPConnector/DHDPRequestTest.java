@@ -5,7 +5,7 @@ import org.junit.Test;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class DHDPRequestTest {
 
@@ -13,17 +13,17 @@ public class DHDPRequestTest {
     private static final String PASSWORD_KEY = "PASSWORD";
 
     private static final String CREATOR = "USER";
-    private static final String ORGANIZATION = "DEVHUNTER";
+    private static final DHDPOrganization ORGANIZATION = DHDPOrganization.DEVHUNTER;
     private static final DHDPRequestType TYPE = DHDPRequestType.LOGIN;
-    private static final String ORIGINATOR = "GUI";
-    private static final String RECIPIENT = "DHDP";
+    private static final DHDPEntity ORIGINATOR = DHDPEntity.FieldNotes;
+    private static final DHDPEntity RECIPIENT = DHDPEntity.DHDP;
     private static final String USERNAME = "USER";
     private static final String PASSWORD = "Password123!@#";
 
     @Test
     public void createDHDPRequestTest() {
         String expectedHeader = "{\"ORGANIZATION\":\"DEVHUNTER\",\"RECIPIENT\":\"DHDP\"," +
-                "\"CREATOR\":\"USER\",\"REQUEST_TYPE\":\"LOGIN\",\"ORIGINATOR\":\"GUI\"}";
+                "\"CREATOR\":\"USER\",\"REQUEST_TYPE\":\"LOGIN\",\"ORIGINATOR\":\"FieldNotes\"}";
         String expectedBody = "{\"PASSWORD\":\"Password123!@#\",\"USERNAME\":\"USER\"}";
 
         DHDPHeader header = DHDPHeader.newBuilder()
