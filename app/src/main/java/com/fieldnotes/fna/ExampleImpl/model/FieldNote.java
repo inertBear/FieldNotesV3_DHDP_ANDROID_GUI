@@ -1,25 +1,10 @@
 package com.fieldnotes.fna.ExampleImpl.model;
 
-import com.fieldnotes.fna.DHDPConnector.DHDPBody;
+import com.devhunter.DHDPConnector4J.request.DHDPRequestBody;
 
 import java.time.LocalDateTime;
-import java.util.Map;
 
-import static com.fieldnotes.fna.ExampleImpl.constants.Constants.BILLING_KEY;
-import static com.fieldnotes.fna.ExampleImpl.constants.Constants.DESCRIPTION_KEY;
-import static com.fieldnotes.fna.ExampleImpl.constants.Constants.END_DATE_KEY;
-import static com.fieldnotes.fna.ExampleImpl.constants.Constants.END_MILEAGE;
-import static com.fieldnotes.fna.ExampleImpl.constants.Constants.GPS_KEY;
-import static com.fieldnotes.fna.ExampleImpl.constants.Constants.LOCATION_KEY;
-import static com.fieldnotes.fna.ExampleImpl.constants.Constants.PASSWORD_KEY;
-import static com.fieldnotes.fna.ExampleImpl.constants.Constants.PROJECT_KEY;
-import static com.fieldnotes.fna.ExampleImpl.constants.Constants.START_DATE_KEY;
-import static com.fieldnotes.fna.ExampleImpl.constants.Constants.START_MILEAGE;
-import static com.fieldnotes.fna.ExampleImpl.constants.Constants.TOKEN_KEY;
-import static com.fieldnotes.fna.ExampleImpl.constants.Constants.USERNAME_KEY;
-import static com.fieldnotes.fna.ExampleImpl.constants.Constants.WELL_KEY;
-
-public class FieldNote extends DHDPBody {
+public class FieldNote extends DHDPRequestBody {
 
     /* all values passed in the constructor can be retrieved from getBody(), but it may be easier
      * (depending on the implementation) to store them as separate variables, as seen here
@@ -38,23 +23,56 @@ public class FieldNote extends DHDPBody {
     private String mDescription;
     private String mGps;
 
-    public FieldNote(Map<String, Object> map) {
-        // make sure to call the super method in order to create the JSON under the hood
-        super(map);
-        // accessor methods provide easy way to assign values locally
-        mUsername = getString(USERNAME_KEY);
-        mPassword = getString(PASSWORD_KEY);
-        mToken = getString(TOKEN_KEY);
-        mProject = getString(PROJECT_KEY);
-        mWellName = getString(WELL_KEY);
-        mLocation = getString(LOCATION_KEY);
-        mBilling = getString(BILLING_KEY);
-        mDescription = getString(DESCRIPTION_KEY);
-        mStartDateTime = getLDT(START_DATE_KEY);
-        mEndDateTime = getLDT(END_DATE_KEY);
-        mMileageStart = getInt(START_MILEAGE);
-        mMileageEnd = getInt(END_MILEAGE);
-        mGps = getString(GPS_KEY);
+    public void setUsername(String username) {
+        mUsername = username;
+    }
+
+    public void setPassword(String password) {
+        mPassword = password;
+    }
+
+    public void setToken(String token) {
+        mToken = token;
+    }
+
+    public void setProject(String project) {
+        mProject = project;
+    }
+
+    public void setWellName(String wellname) {
+        mWellName = wellname;
+    }
+
+    public void setLocation(String location) {
+        mLocation = location;
+    }
+
+    public void setBilling(String billing) {
+        mBilling = billing;
+    }
+
+    public void setStartDate(LocalDateTime startDate) {
+        mStartDateTime = startDate;
+    }
+
+    public void setEndDate(LocalDateTime endTime) {
+        mEndDateTime = endTime;
+    }
+
+    public void setMileageStart(int startMileage) {
+        mMileageStart = startMileage;
+    }
+
+    public void setMileageEnd(int endMileage) {
+        mMileageEnd = endMileage;
+    }
+
+    public void setDescription(String description) {
+        mDescription = description;
+    }
+
+    public void setGps(String gps) {
+        mGps = gps;
     }
 
     public String getUsername() {

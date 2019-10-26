@@ -7,26 +7,26 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
-import com.fieldnotes.fna.DHDPConnector.DHDPEntity;
-import com.fieldnotes.fna.DHDPConnector.DHDPHeader;
-import com.fieldnotes.fna.DHDPConnector.DHDPOrganization;
-import com.fieldnotes.fna.DHDPConnector.DHDPRequest;
-import com.fieldnotes.fna.DHDPConnector.DHDPRequestService;
-import com.fieldnotes.fna.DHDPConnector.DHDPRequestType;
-import com.fieldnotes.fna.DHDPConnector.DHDPResponse;
-import com.fieldnotes.fna.DHDPConnector.DHDPResponseType;
+import com.devhunter.DHDPConnector4J.DHDPRequestService;
+import com.devhunter.DHDPConnector4J.groups.DHDPEntity;
+import com.devhunter.DHDPConnector4J.groups.DHDPOrganization;
+import com.devhunter.DHDPConnector4J.header.DHDPHeader;
+import com.devhunter.DHDPConnector4J.request.DHDPRequest;
+import com.devhunter.DHDPConnector4J.request.DHDPRequestType;
+import com.devhunter.DHDPConnector4J.response.DHDPResponse;
+import com.devhunter.DHDPConnector4J.response.DHDPResponseType;
 import com.fieldnotes.fna.ExampleImpl.model.FNAsyncTask;
 import com.fieldnotes.fna.ExampleImpl.model.FieldNote;
 import com.fieldnotes.fna.R;
 
 import java.lang.ref.WeakReference;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.logging.Logger;
 
-import static com.fieldnotes.fna.ExampleImpl.constants.Constants.PASSWORD_KEY;
-import static com.fieldnotes.fna.ExampleImpl.constants.Constants.USERNAME_KEY;
+import static com.devhunter.DHDPConnector4J.constants.fieldNotes.FieldNotesConstants.PASSWORD_KEY;
+import static com.devhunter.DHDPConnector4J.constants.fieldNotes.FieldNotesConstants.TOKEN_KEY;
+import static com.devhunter.DHDPConnector4J.constants.fieldNotes.FieldNotesConstants.USERNAME_KEY;
 
 public class FNLogin extends AppCompatActivity {
     private static Logger mLogger = Logger.getLogger(FNLogin.class.getName());
@@ -99,10 +99,9 @@ public class FNLogin extends AppCompatActivity {
                     .build();
 
             //Create client DHDPBody implementation
-            Map<String, Object> bodyMap = new HashMap<>();
-            bodyMap.put(USERNAME_KEY, userName);
-            bodyMap.put(PASSWORD_KEY, password);
-            FieldNote body = new FieldNote(bodyMap);
+            FieldNote body = new FieldNote();
+            body.put(USERNAME_KEY, userName);
+            body.put(PASSWORD_KEY, password);
 
             //Create a DHDPRequest payload to DHDP
             DHDPRequest request = DHDPRequest.newBuilder()
@@ -111,15 +110,15 @@ public class FNLogin extends AppCompatActivity {
                     .build();
 
             // send DHDPRequest to DHDP through the DHDPRequestService
-            DHDPResponse response = DHDPRequestService.getInstance().sendRequest(request);
+            DHDPResponse response = DHDPRequestService.getInstance().sendRequest("http://10.0.2.2:8080/?", request);
 
             // handle DHDPResponse received from DHDP
-            if (response.getResponseType().equals(DHDPResponseType.SUCCESS)) {
+            if (response.getResponse().getResponseType().equals(DHDPResponseType.SUCCESS)) {
                 Intent ii = new Intent(loginContext, FNWelcome.class);
                 loginContext.startActivity(ii);
                 loginContext.finish();
             }
-            return response.getMessage();
+            return response.getResponse().getMessage();
         }
     }
 }

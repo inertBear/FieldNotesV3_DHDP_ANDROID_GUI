@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <base-config cleartextTrafficPermitted="true">
+        <!--NOTE:  using 10.0.2.2:8080 because it points to the localhost of the server from
+        the perspective of the Android emulator -->
+        <base includeSubdomains="true">http://10.0.2.2:8080/</base>
+    </base-config>
+</network-security-config>
