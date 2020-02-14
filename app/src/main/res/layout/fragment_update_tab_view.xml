@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
 
             android:orientation="vertical"
-            tools:context=".ExampleImpl.view.AddFieldNote">
+            tools:context=".ExampleImpl.view.FNAdd">
 
             <!--dummyView-->
             <View

@@ -10,8 +10,9 @@ import android.widget.Toast;
  * Abstract Class for an Asynchronous Task to FNP
  */
 public abstract class FNAsyncTask extends AsyncTask<String, String, String> {
+    //TODO: FIX memory leak
     private static Context mContext;
-    protected ProgressDialog mProgressDialog;
+    private ProgressDialog mProgressDialog;
 
     public FNAsyncTask(Context context) {
         mContext = context;
@@ -51,6 +52,14 @@ public abstract class FNAsyncTask extends AsyncTask<String, String, String> {
             Toast toast = Toast.makeText(mContext.getApplicationContext(), message, Toast.LENGTH_SHORT);
             toast.setGravity(Gravity.BOTTOM | Gravity.CENTER, 0, 0);
             toast.show();
+        }
+    }
+
+    @Override
+    protected void onCancelled() {
+        super.onCancelled();
+        if (mProgressDialog.isShowing()) {
+            mProgressDialog.dismiss();
         }
     }
 }

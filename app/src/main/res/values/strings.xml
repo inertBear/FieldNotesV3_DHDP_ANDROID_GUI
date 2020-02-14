@@ -1,11 +1,63 @@
 <resources>
-    FNLoginogin Strings-->
+
+    <!-- FNA -->
     <string name="app_name">FieldNotes</string>
     <string name="app_platform">Android</string>
     <string name="login_title_label">Login</string>
     <string name="login_username_label">Username</string>
     <string name="login_password_label">Password</string>
     <string name="login_button">Submit</string>
-    <string name="copyright">© 2017-2018 FieldNotes</string>
+    <string name="copyright">© 2017-2020 FieldNotes</string>
     <string name="empty_field">--</string>
+
+    <string name="ORGANIZATION">R_H_LANG_HYDROGEOLOGY</string>
+    <string name="FIELDNOTE_ENTITY">FIELDNOTES</string>
+    <string name="DHDP_ENTITY">DHDP</string>
+
+    <string-array name="location_code">
+        <item>Office</item>
+        <item>Field</item>
+        <item>Shop</item>
+        <item>N/A</item>
+        <item>Location</item>
+    </string-array>
+
+    <string-array name="billing_code">
+        <item>Billable</item>
+        <item>Not Billable</item>
+        <item>Turn-key</item>
+        <item>N/A</item>
+        <item>Billing</item>
+    </string-array>
+
+    <!-- DHDP -->
+    <string name="DHDP_HOST">http://10.0.2.2:8080/?</string>
+
+    <!-- FRAGMENT TITLES -->
+    <string name="PREFERENCE_FRAGMENT_TITLE">Preferences</string>
+    <string name="ADD_NOTE_FRAGMENT_TITLE">Add Note</string>
+    <string name="SEARCH_NOTE_FRAGMENT_TITLE">Search Note</string>
+
+    <!-- PREFERENCES -->
+    <string name="REMEMBER_LOGIN_PREF">remember_login</string>
+    <string name="REMEMBER_LOGIN_PREF_NAME">FNPrefs</string>
+    <string name="PREF_USERNAME">username</string>
+    <string name="PREF_PASSWORD">password</string>
+    <string name="PREF_TOKEN">token</string>
+    <string name="AUTOLOG_PREF">rememberLogin</string>
+
+    <!-- FIELDNOTE KEYS-->
+    <string name="TOKEN_KEY">TOKEN</string>
+    <string name="USERNAME_KEY">USERNAME</string>
+    <string name="PASSWORD_KEY">PASSWORD</string>
+    <string name="PROJECT_KEY">PROJECT</string>
+    <string name="WELLNAME_KEY">WELLNAME</string>
+    <string name="LOCATION_KEY">LOCATION</string>
+    <string name="BILLING_TYPE_KEY">BILLING_TYPE</string>
+    <string name="START_TIMESTAMP_KEY">START_DATETIME</string>
+    <string name="END_TIMESTAMP_KEY">END_DATETIME</string>
+    <string name="START_MILEAGE_KEY">START_MILEAGE</string>
+    <string name="END_MILEAGE_KEY">END_MILEAGE</string>
+    <string name="DESCRIPTION_KEY">DESCRIPTION</string>
+
 </resources>

@@ -1,17 +1,15 @@
 package com.fieldnotes.fna.ExampleImpl.view;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.devhunter.DHDPConnector4J.DHDPRequestService;
-import com.devhunter.DHDPConnector4J.groups.DHDPEntity;
-import com.devhunter.DHDPConnector4J.groups.DHDPOrganization;
 import com.devhunter.DHDPConnector4J.header.DHDPHeader;
 import com.devhunter.DHDPConnector4J.request.DHDPRequest;
 import com.devhunter.DHDPConnector4J.request.DHDPRequestType;
@@ -22,11 +20,9 @@ import com.fieldnotes.fna.ExampleImpl.model.FieldNote;
 import com.fieldnotes.fna.R;
 
 import java.lang.ref.WeakReference;
+import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
-
-import static com.devhunter.DHDPConnector4J.constants.fieldNotes.FieldNotesConstants.PASSWORD_KEY;
-import static com.devhunter.DHDPConnector4J.constants.fieldNotes.FieldNotesConstants.TOKEN_KEY;
-import static com.devhunter.DHDPConnector4J.constants.fieldNotes.FieldNotesConstants.USERNAME_KEY;
 
 public class FNLogin extends AppCompatActivity {
     private static Logger mLogger = Logger.getLogger(FNLogin.class.getName());
@@ -62,7 +58,7 @@ public class FNLogin extends AppCompatActivity {
      */
     private static class LoginAsyncTask extends FNAsyncTask {
 
-        WeakReference<FNLogin> weakLoginContextRef;
+        private WeakReference<FNLogin> weakLoginContextRef;
 
         LoginAsyncTask(FNLogin loginContext) {
             super(loginContext);
@@ -73,7 +69,7 @@ public class FNLogin extends AppCompatActivity {
         /**
          * Run the login in an AsyncTask background thread
          *
-         * @param args
+         * @param args for task
          * @return string
          */
         @Override
@@ -86,22 +82,24 @@ public class FNLogin extends AppCompatActivity {
             EditText passwordET = loginContext.findViewById(R.id.PasswordET);
 
             // collect data from UI
-            String userName = userNameET.getText().toString();
-            String password = passwordET.getText().toString();
+//            String userName = userNameET.getText().toString();
+            String userName = "unit test";
+//            String password = passwordET.getText().toString();
+            String password = "fnunittest";
 
             //Create a DHDPHeader - containing DHDP metadata
             DHDPHeader header = DHDPHeader.newBuilder()
                     .setRequestType(DHDPRequestType.LOGIN)
                     .setCreator(userName)
-                    .setOrganization(DHDPOrganization.DEVHUNTER)
-                    .setOriginator(DHDPEntity.FieldNotes)
-                    .setRecipient(DHDPEntity.DHDP)
+                    .setOrganization(loginContext.getResources().getString(R.string.ORGANIZATION))
+                    .setOriginator(loginContext.getResources().getString(R.string.FIELDNOTE_ENTITY))
+                    .setRecipient(loginContext.getResources().getString(R.string.DHDP_ENTITY))
                     .build();
 
             //Create client DHDPBody implementation
             FieldNote body = new FieldNote();
-            body.put(USERNAME_KEY, userName);
-            body.put(PASSWORD_KEY, password);
+            body.put(loginContext.getResources().getString(R.string.USERNAME_KEY), userName);
+            body.put(loginContext.getResources().getString(R.string.PASSWORD_KEY), password);
 
             //Create a DHDPRequest payload to DHDP
             DHDPRequest request = DHDPRequest.newBuilder()
@@ -110,10 +108,23 @@ public class FNLogin extends AppCompatActivity {
                     .build();
 
             // send DHDPRequest to DHDP through the DHDPRequestService
-            DHDPResponse response = DHDPRequestService.getInstance().sendRequest("http://10.0.2.2:8080/?", request);
+            DHDPResponse response = DHDPRequestService.getInstance()
+                    .sendRequest(loginContext.getResources().getString(R.string.DHDP_HOST), request);
 
             // handle DHDPResponse received from DHDP
             if (response.getResponse().getResponseType().equals(DHDPResponseType.SUCCESS)) {
+                Resources resources = loginContext.getResources();
+                // get token from results
+                List<Map<String, Object>> results = response.getResponse().getResults();
+                String token = results.get(0).get(resources.getString(R.string.TOKEN_KEY)).toString();
+
+                // save login preferences
+                loginContext.getSharedPreferences(resources.getString(R.string.REMEMBER_LOGIN_PREF_NAME), MODE_PRIVATE).edit()
+                        .putString(resources.getString(R.string.PREF_USERNAME), userName)
+                        .putString(resources.getString(R.string.PREF_PASSWORD), password)
+                        .putString(resources.getString(R.string.PREF_TOKEN), token)
+                        .apply();
+
                 Intent ii = new Intent(loginContext, FNWelcome.class);
                 loginContext.startActivity(ii);
                 loginContext.finish();
