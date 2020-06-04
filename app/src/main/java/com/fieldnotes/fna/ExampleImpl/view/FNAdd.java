@@ -26,7 +26,6 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.devhunter.DHDPConnector4J.DHDPRequestService;
 import com.devhunter.DHDPConnector4J.header.DHDPHeader;
@@ -42,7 +41,6 @@ import com.fieldnotes.fna.ExampleImpl.view.datetime.SelectDateFragment;
 import com.fieldnotes.fna.ExampleImpl.view.datetime.SelectTimeFragment;
 import com.fieldnotes.fna.R;
 
-import java.lang.ref.WeakReference;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -96,7 +94,6 @@ public class FNAdd extends Fragment {
             focusView.requestFocus();
 
             // define dateTime DialogFragments
-            //TODO: merge these into 2 date/time pickers
             mDateStart = view.findViewById(R.id.dateStart);
             mDateStart.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -201,22 +198,18 @@ public class FNAdd extends Fragment {
     }
 
     /**
-     * Asynchronous AddNote with progress bar
+     * Asynchronous Add with progress bar
      */
     private static class AddAsyncTask extends FNAsyncTask {
 
-        private WeakReference<Activity> weakAddContextRef;
-
         AddAsyncTask(Activity context) {
             super(context);
-            // get weak reference to FNAdd fragment
-            weakAddContextRef = new WeakReference<>(context);
         }
 
         @Override
         protected String doInBackground(String... strings) {
             // get context from weak reference
-            final Activity addContext = weakAddContextRef.get();
+            final Activity addContext = (Activity) getContext().get();
             Resources resources = addContext.getResources();
 
             //get views
@@ -273,6 +266,7 @@ public class FNAdd extends Fragment {
             fieldNote.put(resources.getString(R.string.START_MILEAGE_KEY), mileageStartEt.getText().toString());
             fieldNote.put(resources.getString(R.string.END_MILEAGE_KEY), mileageEndEt.getText().toString());
             fieldNote.put(resources.getString(R.string.DESCRIPTION_KEY), descriptionEt.getText().toString());
+            fieldNote.put(resources.getString(R.string.GPS_KEY), SelfLocator.getCurrentLocation());
 
             // create a DHDPRequest payload to DHDP
             DHDPRequest request = DHDPRequest.newBuilder()
@@ -293,15 +287,5 @@ public class FNAdd extends Fragment {
             }
             return response.getResponse().getMessage();
         }
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
     }
 }

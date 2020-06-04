@@ -9,6 +9,7 @@ public class FieldNote extends DHDPRequestBody {
     /* all values passed in the constructor can be retrieved from getBody(), but it may be easier
      * (depending on the implementation) to store them as separate variables, as seen here
      */
+    private String mTicketNumber;
     private String mUsername;
     private String mPassword;
     private String mToken;
@@ -22,6 +23,10 @@ public class FieldNote extends DHDPRequestBody {
     private Integer mMileageEnd;
     private String mDescription;
     private String mGps;
+
+    public void setTicketNumber(String ticketNumber) {
+        mTicketNumber = ticketNumber;
+    }
 
     public void setUsername(String username) {
         mUsername = username;
@@ -73,6 +78,10 @@ public class FieldNote extends DHDPRequestBody {
 
     public void setGps(String gps) {
         mGps = gps;
+    }
+
+    public String getTicketNumber() {
+        return mTicketNumber;
     }
 
     public String getUsername() {

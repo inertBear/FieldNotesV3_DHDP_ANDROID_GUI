@@ -48,6 +48,7 @@
 
     <!-- FIELDNOTE KEYS-->
     <string name="TOKEN_KEY">TOKEN</string>
+    <string name="TICKET_NUMBER_KEY">TICKET_NUMBER</string>
     <string name="USERNAME_KEY">USERNAME</string>
     <string name="PASSWORD_KEY">PASSWORD</string>
     <string name="PROJECT_KEY">PROJECT</string>
@@ -59,5 +60,6 @@
     <string name="START_MILEAGE_KEY">START_MILEAGE</string>
     <string name="END_MILEAGE_KEY">END_MILEAGE</string>
     <string name="DESCRIPTION_KEY">DESCRIPTION</string>
+    <string name="GPS_KEY">GPS</string>
 
 </resources>

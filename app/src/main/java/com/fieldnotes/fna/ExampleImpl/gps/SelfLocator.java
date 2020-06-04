@@ -20,14 +20,10 @@ import android.widget.Toast;
 
 import java.lang.ref.WeakReference;
 
-
 /**
  * This class requests location permissions and finds the users location when the
  * "save GPS coords" checkbox is selected while adding a new FieldNote or editing and existing FieldNote
- *
- * Created by DevHunter on 7/10/2018.
  */
-
 public class SelfLocator extends AsyncTask<String, String, String> {
     private static String TAG = "SelfLocator";
     private static String mCurrentLocation = "0,0";

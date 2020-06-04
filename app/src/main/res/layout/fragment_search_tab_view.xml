@@ -51,7 +51,7 @@
             android:background="@drawable/buton_search"/>
 
         <ListView
-            android:id="@android:id/list"
+            android:id="@+id/searchResultsListView"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:dividerHeight="20.0sp"

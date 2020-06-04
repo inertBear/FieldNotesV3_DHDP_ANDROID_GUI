@@ -12,6 +12,9 @@ import com.fieldnotes.fna.R;
 
 import static android.content.Context.MODE_PRIVATE;
 
+/**
+ * Displays preferences for FieldNotes
+ */
 public class PreferenceFragment extends PreferenceFragmentCompat {
     private SwitchPreferenceCompat mRememberLogin;
 
@@ -27,31 +30,34 @@ public class PreferenceFragment extends PreferenceFragmentCompat {
         if (view != null) {
             view.setBackgroundColor(getResources().getColor(android.R.color.white));
         }
+
         // Remember Login preference
-        final String loginPrefName = getResources().getString(R.string.REMEMBER_LOGIN_PREF_NAME);
-        mRememberLogin = (SwitchPreferenceCompat) findPreference(getResources().getString(R.string.REMEMBER_LOGIN_PREF));
-        mRememberLogin.setChecked(getActivity()
-                .getSharedPreferences(loginPrefName, MODE_PRIVATE)
-                .getBoolean(getResources().getString(R.string.AUTOLOG_PREF), false));
-        mRememberLogin.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newValue) {
-                if (!mRememberLogin.isChecked()) {
-                    //user "turns on" switch
-                    getActivity().getSharedPreferences(loginPrefName, MODE_PRIVATE)
-                            .edit()
-                            .putBoolean(getResources().getString(R.string.REMEMBER_LOGIN_PREF_NAME), true)
-                            .apply();
-                } else {
-                    // user "turns off" switch
-                    getActivity().getSharedPreferences(loginPrefName, MODE_PRIVATE)
-                            .edit()
-                            .putBoolean(getResources().getString(R.string.REMEMBER_LOGIN_PREF_NAME), false)
-                            .apply();
+        if (getActivity() != null) {
+            final String fnPrefs = getResources().getString(R.string.REMEMBER_LOGIN_PREF_NAME);
+            mRememberLogin = (SwitchPreferenceCompat) findPreference(getResources().getString(R.string.REMEMBER_LOGIN_PREF));
+            mRememberLogin.setChecked(getActivity()
+                    .getSharedPreferences(fnPrefs, MODE_PRIVATE)
+                    .getBoolean(getResources().getString(R.string.AUTOLOG_PREF), false));
+            mRememberLogin.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object newValue) {
+                    if (!mRememberLogin.isChecked()) {
+                        //user "turns on" switch
+                        getActivity().getSharedPreferences(fnPrefs, MODE_PRIVATE)
+                                .edit()
+                                .putBoolean(getResources().getString(R.string.REMEMBER_LOGIN_PREF_NAME), true)
+                                .apply();
+                    } else {
+                        // user "turns off" switch
+                        getActivity().getSharedPreferences(fnPrefs, MODE_PRIVATE)
+                                .edit()
+                                .putBoolean(getResources().getString(R.string.REMEMBER_LOGIN_PREF_NAME), false)
+                                .apply();
+                    }
+                    return true;
                 }
-                return true;
-            }
-        });
+            });
+        }
         return view;
     }
 

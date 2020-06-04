@@ -6,35 +6,30 @@ import android.os.AsyncTask;
 import android.view.Gravity;
 import android.widget.Toast;
 
+import java.lang.ref.WeakReference;
+
 /**
- * Abstract Class for an Asynchronous Task to FNP
+ * Stores context as a WeakReference and abstracts async behaviors
  */
 public abstract class FNAsyncTask extends AsyncTask<String, String, String> {
-    //TODO: FIX memory leak
-    private static Context mContext;
+    private static WeakReference<Context> mContext;
     private ProgressDialog mProgressDialog;
 
     public FNAsyncTask(Context context) {
-        mContext = context;
+        mContext = new WeakReference<>(context);
     }
 
-    /**
-     * Show Progress Dialog
-     **/
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
 
-        mProgressDialog = new ProgressDialog(mContext);
+        mProgressDialog = new ProgressDialog(mContext.get());
         mProgressDialog.setMessage("Working...");
         mProgressDialog.setIndeterminate(false);
         mProgressDialog.setCancelable(true);
         mProgressDialog.show();
     }
 
-    /**
-     * Describes what the async class will do in the background
-     */
     @Override
     protected abstract String doInBackground(String... args);
 
@@ -49,7 +44,7 @@ public abstract class FNAsyncTask extends AsyncTask<String, String, String> {
         }
         // display response message
         if (message != null) {
-            Toast toast = Toast.makeText(mContext.getApplicationContext(), message, Toast.LENGTH_SHORT);
+            Toast toast = Toast.makeText(mContext.get().getApplicationContext(), message, Toast.LENGTH_SHORT);
             toast.setGravity(Gravity.BOTTOM | Gravity.CENTER, 0, 0);
             toast.show();
         }
@@ -61,5 +56,9 @@ public abstract class FNAsyncTask extends AsyncTask<String, String, String> {
         if (mProgressDialog.isShowing()) {
             mProgressDialog.dismiss();
         }
+    }
+
+    public WeakReference<Context> getContext() {
+        return mContext;
     }
 }
